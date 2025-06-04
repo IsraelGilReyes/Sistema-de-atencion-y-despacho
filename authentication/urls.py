@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth, user, test
+from .views import auth, user, role
 
 # URLs para autenticación
 auth_patterns = [
@@ -7,16 +7,19 @@ auth_patterns = [
     path('logout/', auth.logout, name='auth-logout'),
 ]
 
-# URLS para gestión de usuarios
+# URLs para gestión de usuarios
 user_patterns = [
     path('info/', user.get_user_info, name='user-info'),
     path('list/', user.get_user_list, name='user-list'),
     path('create/', user.create_user, name='user-create'),
 ]
 
-# URL para página de prueba
-test_patterns = [
-    path('test/', test.api_test, name='api-test'),
+# URLs para gestión de roles
+role_patterns = [
+    path('roles/', role.role_list, name='role-list'),
+    path('roles/create/', role.create_role, name='role-create'),
+    path('roles/user/', role.get_user_roles, name='user-roles'),
+    path('roles/assign/', role.assign_role, name='role-assign'),
 ]
 
-urlpatterns = auth_patterns + user_patterns + test_patterns 
+urlpatterns = auth_patterns + user_patterns + role_patterns 
