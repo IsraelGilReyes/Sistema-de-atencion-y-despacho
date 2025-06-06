@@ -13,12 +13,16 @@ from .serializers import (
     UserInfoSerializer
 )
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 
 User = get_user_model()
 
-# Vista de Login con serializador personalizado
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
 
 # Vista de Registro
 @api_view(['POST'])

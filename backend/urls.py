@@ -25,7 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('authentication.urls')),
 
-# Esta ruta sirve el template base para Vue
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
     

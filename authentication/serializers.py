@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Role, UserRole, Permission, RolePermission, Menu
+from rest_framework import exceptions  # Importación faltante
 
 User = get_user_model()
 
@@ -31,22 +32,23 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
     def validate(self, attrs):
-        """
-        Valida las credenciales y agrega datos adicionales a la respuesta.
-        """
-        data = super().validate(attrs)
-        
-        # Datos adicionales que se enviarán en la respuesta del login
-        data.update({
-            'user': {
-                'id': self.user.id,
-                'username': self.user.username,
-                'email': self.user.email,
-                'is_active': self.user.is_active,
-            }
+        try:
+            data = super().validate(attrs)
+            data.update({
+                'user': {
+                    'id': self.user.id,
+                    'username': self.user.username,
+                    'email': self.user.email,
+                    'is_active': self.user.is_active,
+                }
+            })
+            return data
+        except exceptions.AuthenticationFailed:
+            raise serializers.ValidationError({
+            "error": "Credenciales inválidas",
+            "code": "invalid_credentials"
         })
-        
-        return data
+        #return data
 
 
 class UserSerializer(serializers.ModelSerializer):

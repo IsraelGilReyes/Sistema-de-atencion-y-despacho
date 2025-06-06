@@ -1,9 +1,10 @@
 from django.urls import path
 from authentication import views
+from .views import LoginView  # Importa directamente la clase
 
 urlpatterns = [
     # Autenticación
-    path('login/', views.LoginView.as_view, name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('logout/', views.logout, name='logout'),
     path('register/', views.register, name='register'),
     
