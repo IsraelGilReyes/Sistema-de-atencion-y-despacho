@@ -33,3 +33,5 @@ pip-delete-this-directory.txt
 # Archivos generados por el usuario
 *.sql
 *.sqlite
+
+node_modules/
