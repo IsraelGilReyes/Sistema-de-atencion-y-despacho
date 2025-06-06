@@ -15,13 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 #from authentication.views import auth, test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('login/', auth.login, name='login'),  
-    #path('', test.api_test, name='test'),  # Endpoint de prueba
-    path('auth/', include('authentication.urls')),  # URLs de autenticación
+    path('auth/', include('authentication.urls')),
+
+# Esta ruta sirve el template base para Vue
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     
-]

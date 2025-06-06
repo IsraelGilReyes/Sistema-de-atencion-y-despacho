@@ -27,6 +27,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # Puerto de desarrollo Vue
+    "http://127.0.0.1:8080",
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Si necesitas enviar cookies
+
 
 # Application definition
 
@@ -38,11 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',  # Para manejar CORS
+    'rest_framework_simplejwt',  # Para JWT
     'authentication',
     'dashboard',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # Middleware para manejar CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
